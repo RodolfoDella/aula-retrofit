@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">Retrofit</string>
+    <string name="action_settings">Atualizar Lista</string>
+
+    <string name="texto_nome">Nome</string>
+    <string name="texto_sexo">Sexo</string>
+    <string name="texto_data_nascimento">Data de Nascimento</string>
+    <string name="texto_cpf">CPF</string>
+    <string name="texto_rg">RG</string>
+    <string name="texto_rua">Rua</string>
+    <string name="texto_rua_numero">Número</string>
+    <string name="texto_bairro">Bairro</string>
+    <string name="texto_cidade">Cidade</string>
+    <string name="texto_uf">Estado</string>
+    <string name="texto_telefone">Telefone</string>
+    <string name="texto_email">E-Mail</string>
+
+    <string name="radio_sexo_masculino">Masculino</string>
+    <string name="radio_sexo_feminino">Feminino</string>
+
+    <string name="botao_salvar">Salvar</string>
+    <string name="botao_excluir">Excluir</string>
+</resources>
