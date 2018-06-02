@@ -14,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import br.com.wedosoft.control.PessoaApi;
@@ -30,6 +31,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     ListView mListView;
     List<PessoaModel> mPessoa;
+    final String SALVAR_INSTANCIA_PESSOAS = "salva_pessoas";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +44,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         mListView = findViewById(R.id.listPessoa);
         mListView.setOnItemClickListener(this);
 
+        // Recuperar itens da lista
+        recoverInstanceState(savedInstanceState);
+
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -53,9 +58,22 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     }
 
     @Override
-    protected void onPostResume() {
-        super.onPostResume();
-        buscar();
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putSerializable(SALVAR_INSTANCIA_PESSOAS, new ArrayList<>(mPessoa));
+    }
+
+    private void recoverInstanceState(Bundle savedInstanceState){
+        if (savedInstanceState != null){
+            mPessoa = (List<PessoaModel>) savedInstanceState.getSerializable(SALVAR_INSTANCIA_PESSOAS);
+        }
+
+        if (mPessoa != null) {
+            PessoaAdapter mAdapter = new PessoaAdapter(MainActivity.this, mPessoa);
+            mListView.setAdapter(mAdapter);
+        } else {
+            buscar();
+        }
     }
 
     @Override
