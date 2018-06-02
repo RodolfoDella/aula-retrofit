@@ -2,6 +2,7 @@ package br.com.wedosoft.view;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -113,7 +114,7 @@ public class PessoaNewActivity extends AppCompatActivity implements View.OnClick
                 String str = "Não foi encontrado o botão \"" +
                         ((Button) view).getText().toString() + "\" na tela \"" +
                         String.valueOf(this.getTitle()) + "\"";
-                Toast.makeText(context, str, Toast.LENGTH_SHORT).show();
+                showSnackBar(str);
                 break;
         }
 
@@ -128,9 +129,7 @@ public class PessoaNewActivity extends AppCompatActivity implements View.OnClick
                     .parse(ed_dataNascimento.getText().toString())
                     .getTime();
         } catch (ParseException e) {
-            Toast.makeText(this,
-                    "Ops.. Algo inesperado ocorreu ao fazer a conversão da data :(",
-                    Toast.LENGTH_SHORT).show();
+            showSnackBar("Ops.. Algo inesperado ocorreu ao fazer a conversão da data :(");
             e.printStackTrace();
         }
 
@@ -168,11 +167,12 @@ public class PessoaNewActivity extends AppCompatActivity implements View.OnClick
 
                 if (response.isSuccessful()) {
                     Log.i(TAG, "Post subetido na API." + response.body().toString());
-                    Toast.makeText(PessoaNewActivity.this, "Pessoa salva com sucesso!", Toast.LENGTH_SHORT).show();
+                    showSnackBar("Pessoa salva com sucesso!");
+
                 } else {
                     int statusCode = response.code();
                     Log.d(TAG, String.valueOf(statusCode) + " " + response.errorBody().toString());
-                    Toast.makeText(getApplicationContext(), "Ops.. Algo deu errado!", Toast.LENGTH_LONG).show();
+                    showSnackBar("Ops.. Algo deu errado!");
                 }
             }
 
@@ -190,12 +190,12 @@ public class PessoaNewActivity extends AppCompatActivity implements View.OnClick
 
                 if (response.isSuccessful()) {
                     Log.i(TAG, "Put subetido na API." + response.body().toString());
-                    Toast.makeText(PessoaNewActivity.this, "Pessoa atualizada com sucesso!", Toast.LENGTH_SHORT).show();
+                    showSnackBar("Pessoa atualizada com sucesso!");
 
                 } else {
                     int statusCode = response.code();
                     Log.d(TAG, String.valueOf(statusCode) + " " + response.errorBody().toString());
-                    Toast.makeText(getApplicationContext(), "Ops.. Algo deu errado!", Toast.LENGTH_LONG).show();
+                    showSnackBar("Ops.. Algo deu errado!");
                 }
             }
 
@@ -218,11 +218,11 @@ public class PessoaNewActivity extends AppCompatActivity implements View.OnClick
 
                 if (response.isSuccessful()) {
                     Log.i(TAG, "Delete subetido na API.");
-                    Toast.makeText(PessoaNewActivity.this, "Pessoa excluída com sucesso!", Toast.LENGTH_SHORT).show();
+                    showSnackBar("Pessoa excluída com sucesso!");
                 } else {
                     int statusCode = response.code();
                     Log.d(TAG, String.valueOf(statusCode) + " " + response.errorBody().toString());
-                    Toast.makeText(getApplicationContext(), "Ops.. Algo deu errado!", Toast.LENGTH_LONG).show();
+                    showSnackBar("Ops.. Algo deu errado!");
                 }
             }
 
@@ -231,6 +231,10 @@ public class PessoaNewActivity extends AppCompatActivity implements View.OnClick
                 Log.e(TAG, "Ops.. Não foi possível fazer o delete na API.");
             }
         });
+    }
+
+    private void showSnackBar(String message) {
+        Snackbar.make(getWindow().getDecorView(), message, Snackbar.LENGTH_LONG).show();
     }
 
     private void setMaskData() {

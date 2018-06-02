@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -60,7 +61,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putSerializable(SALVAR_INSTANCIA_PESSOAS, new ArrayList<>(mPessoa));
+        //outState.putSerializable(SALVAR_INSTANCIA_PESSOAS, new ArrayList<>(mPessoa));
+        //https://medium.com/@mdmasudparvez/android-os-transactiontoolargeexception-on-nougat-solved-3b6e30597345
     }
 
     private void recoverInstanceState(Bundle savedInstanceState){
@@ -140,18 +142,22 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                     PessoaAdapter mAdapter = new PessoaAdapter(MainActivity.this, mPessoa);
                     mListView.setAdapter(mAdapter);
 
-                    Toast.makeText(getApplicationContext(), "Lista atualizada!", Toast.LENGTH_SHORT).show();
+                    showSnackBar("Lista atualizada!");
 
                 } else {
                     int statusCode  = response.code();
-                    Toast.makeText(getApplicationContext(), "Ops.. Algo deu errado!", Toast.LENGTH_LONG).show();
+                    showSnackBar("Ops.. Algo deu errado!");
                 }
             }
             @Override
             public void onFailure(Call<ContentModel> call, Throwable t) {
                 Log.e("onFailure", String.valueOf(t.getMessage()));
-                Toast.makeText(getApplicationContext(), t.getMessage(), Toast.LENGTH_LONG).show();
+                showSnackBar(String.valueOf(t.getMessage()));
             }
         });
+    }
+
+    private void showSnackBar(String message) {
+        Snackbar.make(getWindow().getDecorView(), message, Snackbar.LENGTH_LONG).show();
     }
 }
